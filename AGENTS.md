@@ -1,585 +1,169 @@
-Pequenos Passos
+# Pequenos Passos — Especificação do Produto
+## Versão 0.4 — Registro rápido por notificações
 
-Documento de visão do produto, especificação funcional, fundamentação científica, arquitetura e monetização
+## Nova funcionalidade: notificações interativas e registro rápido de hábitos
 
-Versão: 0.3 — Planejamento consolidado
-Plataforma inicial: Android
-Tecnologias principais: Kotlin, Jetpack Compose e Room
-Modelo comercial proposto: freemium, com plano gratuito local e assinatura premium com sincronização em nuvem
-Objetivo: ajudar pessoas a desenvolver hábitos e habilidades de forma progressiva, acompanhar sua evolução e retomar suas atividades após interrupções, utilizando orientações baseadas em evidências científicas.
+### 1. Objetivo
 
----
+Permitir que o usuário registre o cumprimento de um hábito diretamente pela notificação do celular, sem precisar navegar pelo aplicativo para realizar a ação mais comum.
 
-1. Visão geral
+O princípio central é reduzir o atrito do registro diário: **um toque para registrar o resultado; detalhes adicionais somente quando desejado.**
 
-O Pequenos Passos será um aplicativo de acompanhamento de hábitos e evolução pessoal. O usuário poderá escolher livremente o comportamento ou a habilidade que deseja desenvolver, definir uma meta inicial e acompanhar sua evolução ao longo do tempo.
+### 2. Configuração dos lembretes
 
-O aplicativo não pretende determinar quais hábitos a pessoa deve ter. Sua função será ajudar o usuário a transformar objetivos abstratos em ações concretas, acompanhar sua execução e sugerir próximos passos de acordo com o histórico registrado.
+Cada hábito poderá ter um lembrete configurável pelo usuário, com opções como:
 
-A proposta combina quatro elementos:
+- Horário do lembrete.
+- Dias da semana em que ele será exibido.
+- Ativar ou desativar o lembrete individualmente.
+- Escolher se o registro rápido deverá abrir o aplicativo para adicionar informações complementares.
 
-1. Autonomia: o usuário escolhe o hábito e define seus objetivos.
-2. Simplicidade: o registro diário deve exigir o mínimo de esforço.
-3. Orientação: o aplicativo oferece sugestões fundamentadas em pesquisas sobre hábitos e aprendizagem.
-4. Progresso visível: calendários, gráficos e marcos tornam a evolução mais fácil de perceber.
+A opção de abrir o aplicativo para adicionar detalhes virá **ativada por padrão**, mas poderá ser desativada nas configurações do aplicativo.
 
-A monetização deverá seguir a mesma filosofia de simplicidade: oferecer uma versão gratuita realmente útil e cobrar por recursos adicionais que proporcionem valor concreto, especialmente sincronização e continuidade entre dispositivos.
+### 3. Interação com a notificação
 
-1.1. Exemplos de objetivos
+No horário configurado, o sistema exibirá uma notificação relacionada ao hábito, com três ações:
 
-- Ler regularmente.
-- Praticar exercícios físicos.
-- Estudar ou desenvolver habilidades profissionais.
-- Melhorar a concentração.
-- Meditar ou reservar momentos para relaxamento.
-- Desenvolver uma rotina de sono.
-- Aprender um idioma.
-- Praticar um instrumento musical.
-- Dedicar mais tempo a atividades pessoais.
-- Desenvolver qualquer outro comportamento escolhido pelo usuário.
+- **Cumpri:** registra que o hábito foi realizado.
+- **Não cumpri:** registra explicitamente que o hábito não foi realizado.
+- **Adiar:** posterga o lembrete sem registrar sucesso ou falha.
 
-1.2. Proposta de valor
+O comportamento deverá priorizar a rapidez, permitindo que o usuário registre o resultado sem precisar abrir o aplicativo.
 
-Ajudar o usuário a começar pequeno, visualizar seu progresso e continuar evoluindo, mesmo quando sua rotina não é perfeita.
+#### Ao selecionar “Cumpri”
 
-O aplicativo deverá priorizar simplicidade, autonomia, consistência e transparência.
+1. Registrar o resultado como concluído.
+2. Salvar a data e o horário do registro.
+3. Salvar a referência ao hábito correspondente.
+4. Se a abertura para detalhes estiver ativada, abrir o aplicativo na tela de complementação do registro.
+5. Permitir que o usuário adicione informações opcionais, como quantidade realizada, duração e observações.
 
----
+#### Ao selecionar “Não cumpri”
 
-2. Princípios do produto
+1. Registrar explicitamente que o hábito não foi realizado.
+2. Salvar a data e o horário do registro.
+3. Se a abertura para detalhes estiver ativada, permitir que o usuário informe o contexto, o motivo ou outras observações, sem obrigatoriedade.
+4. Se a configuração estiver desativada, concluir o registro sem abrir o aplicativo.
 
-2.1. O usuário escolhe o hábito
+O registro negativo não deve apagar o progresso anterior nem gerar mensagens de culpa.
 
-O usuário poderá cadastrar qualquer hábito ou atividade.
+#### Ao selecionar “Adiar”
 
-O sistema poderá oferecer exemplos e sugestões de configuração, mas não deverá restringir o uso a uma lista fechada de comportamentos.
+1. Não registrar o hábito como cumprido ou não cumprido.
+2. Agendar um novo lembrete conforme a opção de adiamento escolhida ou uma duração padrão configurável.
+3. Evitar notificações duplicadas para o mesmo lembrete.
+4. Manter o hábito sem resultado registrado até que o usuário tome uma decisão ou registre a execução por outro caminho.
 
-2.2. Começar pequeno
+Adiar não deve ser interpretado como falha.
 
-O aplicativo incentivará a definição de uma primeira meta realista.
+### 4. Complementação opcional do registro
 
-Exemplo:
+A tela de complementação deverá ser simples, rápida e adaptável ao tipo de hábito.
 
-- Objetivo: ler mais.
-- Meta inicial: ler duas páginas por dia.
-- Contexto escolhido: depois do café da manhã.
-- Evolução possível: aumentar gradualmente a quantidade de leitura quando o usuário considerar apropriado.
+O usuário poderá informar:
 
-2.3. Registro simples
+- Quantidade realizada.
+- Duração da atividade.
+- Observações livres.
+- Informações específicas relevantes para o hábito, quando aplicável.
 
-O registro diário deverá ser rápido. O usuário poderá informar se realizou a atividade, se realizou parcialmente ou se não conseguiu realizá-la.
+Exemplos:
 
-A ausência de registro deverá ser diferente de uma falha confirmada.
+| Hábito | Registro básico | Informações complementares |
+|---|---|---|
+| Leitura | Cumpri | 5 páginas, 15 minutos, observação sobre o livro |
+| Exercício | Cumpri | 30 minutos, tipo de atividade, intensidade opcional |
+| Estudo | Cumpri | 45 minutos, assunto estudado |
+| Alimentação | Cumpri parcialmente, se essa opção estiver disponível no fluxo do hábito | Seguiu o planejamento até o almoço; saiu da dieta à tarde |
+| Meditação | Cumpri | 10 minutos, observação sobre a experiência |
 
-2.4. Retomar sem recomeçar do zero
+Os exemplos não devem impor campos rígidos a todos os hábitos. O modelo deve permitir diferentes unidades e quantidades, pois cada usuário poderá acompanhar atividades muito distintas.
 
-Uma interrupção não deverá apagar o progresso anterior.
+### 5. Registro parcial e hábitos com diferentes critérios
 
-O aplicativo poderá sugerir uma meta temporariamente menor, uma mudança de contexto ou uma retomada gradual.
+O produto deverá distinguir três conceitos:
 
-2.5. Gamificação sem falsas promessas
+- **Resultado do hábito:** cumprido, não cumprido ou parcialmente cumprido, quando o hábito admitir essa classificação.
+- **Quantidade ou duração:** quanto foi realizado, independentemente do resultado geral.
+- **Observações:** informações adicionais fornecidas voluntariamente pelo usuário.
 
-O usuário poderá visualizar níveis, marcos e progresso acumulado.
+Por exemplo, uma pessoa pode ter lido cinco páginas, embora sua meta fosse dez. O registro pode ser parcial, com a quantidade efetivamente realizada preservada.
 
-O aplicativo não deverá afirmar que uma pessoa formou um hábito ou se tornou especialista simplesmente porque completou determinado número de dias ou horas.
+Da mesma forma, alguém pode ter seguido o planejamento alimentar durante parte do dia, mas não durante todo o período. O aplicativo deverá permitir descrever esse resultado sem reduzir toda a experiência a uma classificação binária.
 
-2.6. Privacidade e autonomia
+A classificação parcial poderá ser opcional ou oferecida de acordo com a configuração do hábito. Ela não deve tornar o registro rápido mais complexo.
 
-O aplicativo deverá permitir que o usuário controle seus dados, seus lembretes e suas metas. A monetização não deverá depender de mensagens culpabilizadoras ou de mecanismos que penalizem pausas.
+### 6. Configuração de abertura após o registro
 
----
+A preferência de abertura do aplicativo deverá existir nas configurações, com o seguinte comportamento inicial:
 
-3. Fundamentação científica
+- **Ativada:** depois de selecionar “Cumpri” ou “Não cumpri”, o aplicativo abre a tela para complementar o registro.
+- **Desativada:** o resultado é salvo diretamente pela notificação, sem exigir que o usuário abra o aplicativo.
+- **Adiar:** somente reagenda o lembrete, sem abrir obrigatoriamente a tela de detalhes.
 
-O produto deverá utilizar pesquisas sobre formação de hábitos, prática deliberada e mudança de comportamento como fundamento para suas funcionalidades.
+Quando o usuário adicionar informações complementares, elas deverão ser associadas ao mesmo registro, sem criar duas execuções distintas para o mesmo evento.
 
-É importante distinguir:
+A implementação também deverá tratar com segurança toques repetidos, notificações antigas e alterações realizadas simultaneamente no aplicativo.
 
-- Repetição: quantas vezes a pessoa realizou a atividade.
-- Automaticidade: quanto o comportamento passa a ocorrer de forma relativamente automática em determinado contexto.
-- Desenvolvimento de habilidade: como o desempenho evolui por meio da prática, do feedback e de outros fatores.
+### 7. Histórico e uso dos dados
 
-Esses conceitos estão relacionados, mas não são equivalentes.
+Cada registro deverá preservar, no mínimo:
 
-3.1. Tempo para formação de hábitos
+- Hábito associado.
+- Data e horário da execução ou da declaração do resultado.
+- Status do registro.
+- Quantidade realizada, quando aplicável.
+- Duração, quando aplicável.
+- Observações opcionais.
+- Origem do registro, como notificação ou aplicativo, quando útil para auditoria e análise.
 
-A revisão sistemática e meta-análise Time to Form a Habit: A Systematic Review and Meta-Analysis of Health Behaviour Habit Formation and Its Determinants (2024) reuniu 20 estudos e 2.601 participantes.
+É importante distinguir o horário em que a atividade ocorreu do horário em que o usuário informou o resultado. Quando esses horários não forem iguais, o aplicativo não deverá apresentar o horário do toque como se fosse necessariamente o horário exato da execução.
 
-As medianas reportadas em quatro estudos variaram de 59 a 66 dias, enquanto as médias variaram de 106 a 154 dias. As estimativas individuais apresentaram grande variabilidade.
+O histórico deverá permitir consultar as informações complementares e, futuramente, utilizá-las para gráficos, acompanhamento de metas e recomendações personalizadas.
 
-Fontes:
+### 8. Regras de experiência do usuário
 
-- "PubMed" (https://pubmed.ncbi.nlm.nih.gov/39685110/)
-- "Texto completo no PMC" (https://pmc.ncbi.nlm.nih.gov/articles/PMC11641623/)
+- Registrar um resultado deve exigir o menor número possível de interações.
+- Informações complementares nunca devem ser obrigatórias para concluir o registro.
+- A ausência de registro não equivale a uma falha confirmada.
+- Adiar um lembrete não equivale a cumprir ou não cumprir o hábito.
+- O usuário deve poder corrigir registros incorretos.
+- O aplicativo deve preservar o histórico de maneira consistente.
+- A experiência deve evitar culpa, pressão excessiva e punições por interrupções.
+- O aplicativo deve funcionar offline, utilizando os recursos locais do Android para notificações e persistência no MVP.
 
-Implicações: não estabelecer um prazo universal, permitir acompanhamento prolongado e tratar estimativas como referências populacionais, não como garantias individuais.
+### 9. Considerações técnicas para o MVP
 
-3.2. Repetição em contextos estáveis
+A funcionalidade será implementada no aplicativo Android nativo, utilizando Kotlin e Jetpack Compose.
 
-Lally et al. (2010), em How are habits formed: Modelling habit formation in the real world, estudaram comportamentos repetidos em contextos cotidianos.
+Os principais componentes serão:
 
-Entre os participantes cujo modelo de automaticidade pôde ser ajustado, o tempo estimado para atingir 95% do nível assintótico variou de 18 a 254 dias.
+- **Agendamento de lembretes:** utilizar os mecanismos de agendamento de trabalho do Android adequados à precisão necessária, respeitando restrições de bateria e execução em segundo plano.
+- **Notificações com ações:** disponibilizar as ações de cumprimento, não cumprimento e adiamento.
+- **Persistência local:** armazenar registros e estados dos lembretes com Room e SQLite.
+- **Navegação contextual:** abrir diretamente o hábito e o registro correspondente quando o usuário optar por adicionar detalhes.
+- **Idempotência:** impedir que uma ação repetida gere registros duplicados.
+- **Permissões:** tratar a autorização para notificações e explicar ao usuário quando elas estiverem desativadas.
 
-O estudo também observou que uma oportunidade perdida não prejudicou materialmente a formação do hábito naquele contexto experimental.
+A implementação deverá considerar as restrições do Android para notificações, inicialização após reinicialização do aparelho, adiamento e possíveis limitações de precisão do agendamento. Não se deve prometer pontualidade absoluta em todos os dispositivos.
 
-Fonte: "DOI — How are habits formed?" (https://doi.org/10.1002/ejsp.674)
+### 10. Critérios de aceitação
 
-Implicações: associar hábitos a contextos estáveis, evitar penalidades por falhas isoladas e facilitar a retomada.
+A funcionalidade será considerada pronta quando:
 
-3.3. Prática deliberada e expertise
+1. O usuário conseguir configurar e desativar lembretes por hábito.
+2. A notificação apresentar as ações de cumprimento, não cumprimento e adiamento.
+3. Cumprimento e não cumprimento gerarem registros persistentes sem exigir navegação manual pelo aplicativo.
+4. O comportamento de abertura para complementação respeitar a preferência configurada.
+5. A tela complementar permitir salvar quantidade, duração e observações opcionais.
+6. As informações adicionais ficarem vinculadas ao registro original.
+7. Adiar não gerar falsos registros de sucesso ou falha.
+8. Toques repetidos não criarem registros duplicados.
+9. O histórico distinguir dias sem registro de dias explicitamente marcados como não cumpridos.
+10. A funcionalidade permanecer utilizável offline.
 
-Ericsson, Krampe e Tesch-Römer (1993), em The Role of Deliberate Practice in the Acquisition of Expert Performance, investigaram a importância da prática estruturada e direcionada à melhoria do desempenho.
+### 11. Priorização
 
-A popular regra das 10.000 horas não representa um prazo universal para alcançar expertise. O desenvolvimento de habilidades depende de fatores como domínio, qualidade da prática, feedback e características individuais.
+Esta funcionalidade é candidata importante para o MVP, pois está diretamente ligada à principal proposta de valor do Pequenos Passos: facilitar a consistência sem transformar o acompanhamento em uma tarefa cansativa.
 
-Uma meta-análise de Macnamara, Hambrick e Oswald (2014) identificou diferenças importantes na proporção da variação de desempenho explicada pela prática deliberada em diferentes domínios.
-
-Fontes:
-
-- "Ericsson et al. (1993)" (https://doi.org/10.1037/0033-295X.100.3.363)
-- "Macnamara et al. (2014)" (https://doi.org/10.1177/0956797614535810)
-
-Implicações: registrar tempo de prática, permitir metas pessoais de horas e distinguir prática acumulada de competência demonstrada.
-
-3.4. Interrupções e perda de hábitos
-
-Não existe um prazo universal bem estabelecido após o qual um hábito necessariamente desaparece.
-
-O produto poderá registrar períodos de interrupção e sugerir retomadas, mas não deverá utilizar uma contagem regressiva para afirmar quando o usuário perderá um hábito ou uma habilidade.
-
-3.5. Técnicas digitais de mudança de comportamento
-
-Revisões sistemáticas identificaram técnicas como automonitoramento, definição de metas, lembretes, feedback e personalização em intervenções digitais voltadas à formação de hábitos.
-
-Fontes:
-
-- "JMIR — Digital Behavior Change Intervention Designs for Habit Formation" (https://www.jmir.org/2024/1/e54375)
-- "Annals of Behavioral Medicine — Effective Behavior Change Techniques" (https://academic.oup.com/abm/article/57/10/817/7251346)
-
-Essas evidências orientarão as funcionalidades, sem pressupor que qualquer implementação específica produzirá resultados garantidos.
-
----
-
-4. Funcionalidades do aplicativo
-
-4.1. Cadastro de hábitos
-
-O usuário poderá definir:
-
-- Nome e descrição.
-- Categoria opcional.
-- Frequência.
-- Meta inicial.
-- Unidade de medida.
-- Contexto ou horário preferencial.
-- Data de início.
-- Lembretes opcionais.
-
-4.2. Registro diário
-
-Cada registro poderá indicar:
-
-- Realizado.
-- Realizado parcialmente.
-- Não realizado.
-- Sem registro.
-
-O usuário poderá corrigir registros anteriores.
-
-4.3. Calendário e histórico
-
-O calendário permitirá consultar registros, identificar padrões, observar interrupções e visualizar mudanças nas metas.
-
-4.4. Painel de progresso
-
-O painel poderá mostrar:
-
-- Frequência de realização.
-- Percentual de realização nos dias elegíveis e registrados, com critérios transparentes.
-- Tempo acumulado de prática.
-- Evolução das metas.
-- Marcos alcançados.
-- Histórico de retomadas.
-
-4.5. Motor de próximos passos
-
-Um motor de regras determinísticas poderá sugerir:
-
-1. Manter a meta atual.
-2. Experimentar um aumento gradual.
-3. Reduzir temporariamente a meta.
-4. Rever o horário ou contexto.
-5. Retomar com uma ação menor.
-6. Aguardar mais registros antes de recomendar uma mudança.
-
-As recomendações deverão ser opcionais e apresentar justificativas compreensíveis.
-
-4.6. Biblioteca de orientações
-
-A biblioteca reunirá estratégias sobre metas realistas, repetição em contextos estáveis, prática deliberada, planejamento de obstáculos, retomada e progressão gradual.
-
-As orientações deverão incluir fontes científicas quando aplicável e explicitar suas limitações.
-
-4.7. Lembretes
-
-O usuário poderá configurar notificações locais, com horários e frequência sob seu controle.
-
-4.8. Gamificação
-
-A gamificação poderá incluir:
-
-- Marcos de consistência.
-- Calendário visual.
-- Gráficos de frequência.
-- Tempo acumulado de prática.
-- Progresso até metas pessoais.
-- Reconhecimento de retomadas.
-- Histórico de evolução.
-
-Marcos como 30 ou 60 dias poderão ser apresentados como objetivos de acompanhamento, sem afirmar que representam prazos científicos universais para a formação de hábitos.
-
-Para habilidades, o aplicativo poderá permitir marcos de 10, 50, 100 ou 500 horas, por exemplo, sempre deixando claro que são metas de prática e não níveis comprovados de expertise.
-
----
-
-5. Modelo de monetização
-
-5.1. Estratégia geral: freemium
-
-O modelo comercial proposto será baseado em duas versões:
-
-- Plano gratuito: permite experimentar o conceito e acompanhar um hábito localmente.
-- Plano premium: oferece continuidade entre dispositivos, sincronização em nuvem e outros benefícios que forem validados.
-
-A intenção é que a versão gratuita seja útil por si só, enquanto a versão paga resolva uma necessidade adicional concreta.
-
-5.2. Plano gratuito
-
-O plano gratuito poderá oferecer:
-
-- Cadastro de um hábito ativo.
-- Armazenamento local no aparelho.
-- Registro diário.
-- Calendário e histórico.
-- Progresso básico.
-- Sugestões iniciais baseadas em regras.
-- Biblioteca básica de orientações.
-- Lembretes locais.
-- Funcionamento offline.
-
-O limite inicial proposto é de um hábito cadastrado. Esse limite ainda deverá ser validado com usuários, pois pode ser restritivo demais para quem deseja acompanhar mais de um comportamento.
-
-Os dados permanecerão armazenados localmente. Não será necessária uma conta para utilizar as funcionalidades básicas.
-
-Ponto de atenção: a ausência de nuvem significa que os dados não estarão automaticamente sincronizados ou protegidos por um backup remoto. A interface deverá comunicar isso claramente e oferecer instruções para evitar perda de dados ao trocar de aparelho ou reinstalar o aplicativo.
-
-5.3. Plano premium
-
-A principal proposta do premium será permitir que o usuário continue sua jornada em diferentes dispositivos, sem depender de um único aparelho.
-
-Funcionalidades candidatas:
-
-- Cadastro de múltiplos hábitos.
-- Sincronização em nuvem.
-- Conta de usuário.
-- Acesso aos mesmos hábitos em diferentes dispositivos.
-- Backup remoto.
-- Restauração dos dados após troca de aparelho.
-- Histórico sincronizado.
-- Continuidade dos registros e metas em diferentes dispositivos.
-
-Funcionalidades adicionais, como relatórios avançados e jornadas guiadas, poderão ser avaliadas posteriormente.
-
-O principal diferencial comercial deverá ser a continuidade da experiência, não a retirada de funcionalidades básicas essenciais para tornar o aplicativo útil.
-
-5.4. Assinatura mensal e anual
-
-O premium poderá oferecer duas opções:
-
-Mensal: pagamento recorrente, com menor compromisso inicial.
-
-Anual: pagamento antecipado por doze meses, com desconto em relação ao preço mensal acumulado.
-
-Os preços ainda não foram definidos.
-
-A estratégia de preço deverá considerar:
-
-- Disposição real dos usuários para pagar.
-- Custos das lojas de aplicativos.
-- Impostos e taxas de pagamento.
-- Infraestrutura e armazenamento.
-- Custos de suporte.
-- Custos de aquisição de usuários.
-- Taxa de cancelamento.
-- Margem necessária para sustentar o produto.
-
-A assinatura anual poderá melhorar a previsibilidade da receita e reduzir a frequência de cobranças, mas o desconto deverá preservar uma margem sustentável.
-
-5.5. Hipóteses de preço para teste
-
-Como ponto de partida para pesquisa comercial, poderão ser avaliadas faixas como:
-
-- Mensal: R$ 7,90 a R$ 12,90.
-- Anual: preço equivalente a aproximadamente 8 a 10 mensalidades.
-
-Esses valores são hipóteses de teste, não preços definidos ou comprovadamente aceitos pelo mercado.
-
-O preço final deverá ser escolhido após entrevistas, testes de oferta e análise de custos.
-
-5.6. Por que cobrar pela sincronização?
-
-A sincronização resolve uma necessidade concreta: permitir que o usuário mantenha o mesmo histórico e continue registrando suas atividades ao trocar de dispositivo ou utilizar mais de um aparelho.
-
-Ela também cria uma justificativa recorrente para a assinatura, pois o serviço de nuvem exige manutenção contínua.
-
-Entretanto, sincronização não deverá ser tratada como uma funcionalidade trivial. Ela exige autenticação, controle de acesso, resolução de conflitos, proteção dos dados e tratamento de falhas de rede.
-
-Por isso, a primeira versão deverá funcionar localmente. A nuvem será implementada quando a proposta principal estiver validada.
-
----
-
-6. Arquitetura e tecnologias
-
-6.1. Aplicativo Android
-
-Kotlin + Jetpack Compose
-
-Escolhidos para aprender desenvolvimento Android nativo e aproveitar o conhecimento de Java.
-
-6.2. Persistência local
-
-Room + SQLite
-
-Armazenará hábitos, registros, metas, orientações e marcos sem depender de um servidor.
-
-6.3. Estado e arquitetura
-
-ViewModel + StateFlow + corrotinas
-
-Separarão a interface da lógica e permitirão operações assíncronas.
-
-6.4. Backend futuro
-
-Java + Spring Boot
-
-Poderá fornecer APIs para contas, sincronização, backup e compartilhamento.
-
-O backend deverá ser adicionado quando a necessidade comercial justificar o custo e a complexidade.
-
-6.5. Sincronização futura
-
-A implementação deverá considerar:
-
-- Autenticação segura.
-- Identificação dos registros.
-- Sincronização incremental.
-- Tratamento de alterações concorrentes.
-- Resolução de conflitos.
-- Funcionamento offline.
-- Exclusão de conta e dados.
-- Proteção de dados em trânsito e armazenados.
-- Recuperação após falhas.
-
-A sincronização deverá preservar o histórico e evitar duplicações.
-
-6.6. Inteligência artificial
-
-A IA será utilizada inicialmente para pesquisa, síntese e organização de evidências científicas, com revisão das fontes originais.
-
-Não será necessária IA em tempo de execução no MVP.
-
----
-
-7. Modelo de dados inicial
-
-Habit
-
-Representa um hábito cadastrado.
-
-Campos conceituais:
-
-- "id"
-- "name"
-- "description"
-- "category"
-- "unit"
-- "targetValue"
-- "frequency"
-- "preferredContext"
-- "startDate"
-- "isArchived"
-
-HabitLog
-
-Representa um registro diário.
-
-Campos:
-
-- "id"
-- "habitId"
-- "date"
-- "status"
-- "actualValue"
-- "durationMinutes"
-- "note"
-
-HabitGoalHistory
-
-Preserva o histórico de metas e suas datas de vigência.
-
-Strategy
-
-Armazena orientações e referências.
-
-RecommendationRule
-
-Representa regras do motor de recomendações.
-
-Milestone
-
-Armazena marcos pessoais e conquistas.
-
-PracticeSession
-
-Armazena sessões de prática e duração.
-
-UserAccount — futuro
-
-Representará a conta do usuário no plano premium.
-
-SyncMetadata — futuro
-
-Poderá armazenar informações técnicas necessárias para sincronização, como versão do registro, data da última alteração e estado de sincronização.
-
-Essas estruturas serão refinadas durante o desenvolvimento.
-
----
-
-8. Plano de execução
-
-Etapa 1 — Refinamento da ideia
-
-Definir público, problema, proposta de valor e diferencial.
-
-Resultado: documento de visão e hipóteses prioritárias.
-
-Etapa 2 — Pesquisa científica aplicada
-
-Organizar os estudos, suas limitações e as regras que poderão orientar o produto.
-
-Resultado: biblioteca inicial de estratégias fundamentadas.
-
-Etapa 3 — Validação com usuários
-
-Entrevistar potenciais usuários e testar a compreensão da proposta.
-
-Resultado: evidências qualitativas sobre utilidade e necessidades.
-
-Etapa 4 — Definição do MVP
-
-Selecionar cadastro, registros, calendário, histórico, progresso e sugestões básicas.
-
-Resultado: especificação funcional com critérios de aceitação.
-
-Etapa 5 — Protótipo visual
-
-Desenhar as telas e testar os fluxos principais.
-
-Resultado: protótipo navegável.
-
-Etapa 6 — Preparação técnica
-
-Configurar Kotlin, Compose, Room, navegação e testes.
-
-Resultado: projeto executável com persistência local.
-
-Etapa 7 — Implementação do MVP
-
-Desenvolver o fluxo completo de cadastro, registro, histórico e recomendações.
-
-Resultado: aplicativo funcional offline.
-
-Etapa 8 — Testes com usuários
-
-Observar frequência de uso, dificuldades e utilidade das sugestões.
-
-Resultado: lista priorizada de melhorias.
-
-Etapa 9 — Validação comercial
-
-Testar o limite gratuito, os benefícios premium e a disposição para pagar.
-
-Resultado: primeiras evidências sobre monetização.
-
-Etapa 10 — Sincronização e assinatura
-
-Implementar contas, backend, sincronização e pagamentos somente após validar a necessidade e o modelo comercial.
-
-Resultado: versão premium capaz de sustentar a experiência entre dispositivos.
-
-Etapa 11 — Publicação e evolução
-
-Publicar, acompanhar retenção e avaliações e evoluir o produto com base em evidências.
-
-Resultado: produto público em melhoria contínua.
-
----
-
-9. Métricas de sucesso
-
-O projeto deverá acompanhar:
-
-- Ativação: usuários que cadastram um hábito e fazem o primeiro registro.
-- Retenção: usuários que continuam utilizando o aplicativo.
-- Frequência de registro.
-- Utilidade percebida das recomendações.
-- Retomada após interrupções.
-- Marcos alcançados.
-- Conversão do plano gratuito para o premium.
-- Cancelamento das assinaturas.
-- Receita recorrente mensal.
-- Custo de infraestrutura por usuário pagante.
-- Margem após taxas, impostos e custos operacionais.
-
-As métricas deverão distinguir ausência de registro de abandono confirmado.
-
----
-
-10. Privacidade e responsabilidade
-
-O aplicativo deverá:
-
-- Coletar somente os dados necessários.
-- Permitir consultar e excluir registros.
-- Evitar compartilhamento sem consentimento.
-- Proteger os dados sincronizados.
-- Explicar as limitações das recomendações.
-- Não apresentar estimativas como garantias científicas.
-- Permitir que o usuário controle suas metas e notificações.
-
-A versão gratuita local reduzirá a necessidade de transmissão de dados. O plano premium exigirá uma política de privacidade clara, medidas de segurança e procedimentos para exclusão e exportação dos dados conforme aplicável.
-
----
-
-11. Decisões e hipóteses ainda abertas
-
-Diretrizes já estabelecidas
-
-- O produto será inicialmente Android.
-- Kotlin e Jetpack Compose serão as tecnologias principais.
-- O aplicativo permitirá que o usuário escolha seus hábitos.
-- O registro e o histórico serão simples.
-- O progresso poderá ser acompanhado visualmente.
-- As sugestões utilizarão regras transparentes.
-- A pesquisa científica orientará o conteúdo.
-- A primeira versão funcionará localmente.
-
-Hipóteses a validar
-
-- Limitar o plano gratuito a um hábito.
-- Oferecer múltiplos hábitos e sincronização no premium.
-- Cobrar mensalmente ou anualmente.
-- Definir preços na faixa inicialmente sugerida.
-- Acrescentar relatórios avançados ou jornadas guiadas.
-- Implementar backend e autenticação.
-- Escolher a política definitiva de backup e 
+A implementação deve começar com o fluxo básico de notificação, registro e persistência local. Personalizações avançadas de horários, múltiplas notificações, estatísticas detalhadas e sincronização em nuvem poderão ser desenvolvidas posteriormente, conforme a validação com usuários.
