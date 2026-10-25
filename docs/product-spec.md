@@ -1,11 +1,10 @@
 # Pequenos Passos — visão e especificação do produto
 
-**Versão de referência:** 0.3, planejamento consolidado  
 **Plataforma inicial:** Android  
 **Tecnologias previstas:** Kotlin, Jetpack Compose e Room  
 **Modelo comercial proposto:** freemium, com plano gratuito local e possível assinatura premium com sincronização em nuvem.
 
-Este documento descreve a visão, princípios, funcionalidades planejadas, fundamentação e hipóteses do produto. O escopo autorizado para cada etapa está em [roadmap.md](roadmap.md). A especificação detalhada de notificações da versão 0.4 está em [notificações e registro rápido](produto/notificacoes-e-registro-rapido.md), com requisitos técnicos em [notificações e persistência local](arquitetura/notificacoes-e-persistencia-local.md) e critérios em [MVP de notificações](planejamento/mvp-notificacoes-e-registro-rapido.md).
+Este documento descreve a visão, princípios, funcionalidades planejadas, fundamentação e hipóteses do produto. O escopo autorizado para cada etapa está em [roadmap.md](roadmap.md). As decisões de conteúdo e estados das telas do protótipo estão em [telas e interações](produto/telas-e-interacoes.md). A especificação detalhada de notificações está em [notificações e registro rápido](produto/notificacoes-e-registro-rapido.md), com requisitos técnicos em [notificações e persistência local](arquitetura/notificacoes-e-persistencia-local.md) e critérios em [MVP de notificações](planejamento/mvp-notificacoes-e-registro-rapido.md).
 
 ## 1. Visão e proposta de valor
 
@@ -46,9 +45,13 @@ Revisões de intervenções digitais identificam automonitoramento, definição 
 
 O cadastro poderá incluir nome, descrição, categoria opcional, frequência, meta inicial, unidade, contexto ou horário preferencial, data de início e lembretes opcionais. O registro poderá indicar realizado, realizado parcialmente ou não realizado, com possibilidade de corrigir registros anteriores. Ausência de registro permanece distinta de falha.
 
+As regras de apresentação e edição rápida dos hábitos, incluindo o modo de remoção múltipla, estão em [telas e interações](produto/telas-e-interacoes.md).
+
 ### Histórico e progresso
 
 Calendário e histórico permitem consultar registros, padrões, interrupções e mudanças de metas. O painel poderá apresentar frequência, percentual nos dias elegíveis e registrados (com critérios transparentes), tempo de prática, evolução de metas, marcos e retomadas.
+
+O protótipo inicia a visualização de registros pelo período semanal e distingue registro parcial de ausência de registro. Os detalhes de tela estão em [telas e interações](produto/telas-e-interacoes.md).
 
 ### Próximos passos e orientações
 
